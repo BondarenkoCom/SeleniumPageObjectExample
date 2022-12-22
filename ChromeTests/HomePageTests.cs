@@ -37,7 +37,6 @@ namespace PageObjectPatternSelenium
             var buttonLang = new PageActions();
             buttonLang.Clicker(PageHomeForChrome.changeLanguagrToPoland);
 
-            //какие можно сделать Assert что убедиться что язык сменился?
             Thread.Sleep(2000);
         }
 
