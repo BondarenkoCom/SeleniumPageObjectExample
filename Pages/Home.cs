@@ -12,10 +12,11 @@ namespace PageObjectPatternSelenium.Pages
         //Actions
         public void CheckWebSite()
         {
+            
             //TODO сделать проверку по Assert.That
             if(Browser.Title == BrowserValues.htmlTitle)
             {
-                Console.WriteLine($"Browser title is correct - {Browser.Title}\nDesign Pattern button is exist - {PageHomeForChrome.designPatternsButton}");
+                Console.WriteLine($"Browser title is correct - {Browser.Title}");
                 //Assert.IsTrue(Browsers.Title.Equals("nopCommerce demo store"));
             }
             else

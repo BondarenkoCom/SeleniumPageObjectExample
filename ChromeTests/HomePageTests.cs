@@ -66,13 +66,6 @@ namespace PageObjectPatternSelenium
         {
             Pages.Pages.home.CheckWebSite();
             Thread.Sleep(3000);
-
-            //var buttonLang = new ClickerHelper();
-            //buttonLang.Clicker(XpathsForChrome.BrokeXpath);
-
-            //какие можно сделать Assert что убедиться что язык сменился?
-            Thread.Sleep(2000);
         }
-
     }
 }
