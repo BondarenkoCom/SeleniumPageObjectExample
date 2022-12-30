@@ -14,13 +14,13 @@ namespace PageObjectPatternSelenium.ChromeTests
     [TestFixture]
     public class LoginPageNegativeTests
     {
-        PageActions _pageActions = null;
+        HelperPageActions _pageActions = null;
 
         [SetUp]
         public void SetUp()
         {
             Browser.Init();
-            _pageActions = new PageActions();
+            _pageActions = new HelperPageActions();
         }
 
         [TearDown]
@@ -36,17 +36,17 @@ namespace PageObjectPatternSelenium.ChromeTests
             Pages.Pages.home.CheckWebSite();
             Browser.WaiterLoadPage(20);
 
-            var buttonLogin = new PageActions();
+            var buttonLogin = new HelperPageActions();
             buttonLogin.Clicker(PageHomeForChrome.buttonLogin);
 
             //Thread.Sleep(4000);
             Browser.WaiterLoadPage(20);
 
-            var LogInButtonAction = new PageActions();
+            var LogInButtonAction = new HelperPageActions();
             LogInButtonAction.Clicker(PageAuthForChrome.logInButton);
 
             //TODO Make Assert for check error in page
-            Thread.Sleep(3000);
+            Thread.Sleep(10000);
         }
 
     }

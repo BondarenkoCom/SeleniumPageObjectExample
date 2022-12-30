@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace PageObjectPatternSelenium.Helpers
 {
-    public class PageActions: Browser
+    public class HelperPageActions : Browser
     {
         public void Clicker(string changeXpath)
         {
@@ -16,9 +16,17 @@ namespace PageObjectPatternSelenium.Helpers
             //TODO сделать удобный waiter для элементов
             var FindText = webDriver.FindElement(By.XPath(XpathForCheck));
             var result = FindText.Text;
-        
-            Thread.Sleep(3000);
+
+            //Thread.Sleep(3000);
+            Browser.WaiterLoadPage(20);
             return result;
+        }
+
+        public void SenderKeys(string xpathForm, string textKey)
+        {
+            var findForm = webDriver.FindElement(By.XPath(xpathForm));
+            findForm.Clear();
+            findForm.SendKeys(textKey);
         }
     }
 }

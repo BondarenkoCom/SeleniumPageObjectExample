@@ -10,13 +10,13 @@ namespace PageObjectPatternSelenium
     [TestFixture]
     public class ObjectPatternTests
     {
-        PageActions _pageActions = null;
+        HelperPageActions _pageActions = null;
 
         [SetUp]
         public void Setup()
         {
             Browser.Init();
-            _pageActions = new PageActions();
+            _pageActions = new HelperPageActions();
             
         }
 
@@ -26,7 +26,6 @@ namespace PageObjectPatternSelenium
             Browser.Close();
         }
 
-        //TODO придумать тест который проверит что язык изменился
         [Test]
         [Author("Artem Bondarenko", "BondCorporation@yandex.ru")]
         public void TestChangeLanguageToPolski()
@@ -34,7 +33,7 @@ namespace PageObjectPatternSelenium
             Pages.Pages.home.CheckWebSite();
             Thread.Sleep(3000);
                 
-            var buttonLang = new PageActions();
+            var buttonLang = new HelperPageActions();
             buttonLang.Clicker(PageHomeForChrome.changeLanguagrToPoland);
 
             Thread.Sleep(2000);
