@@ -3,11 +3,7 @@ using PageObjectPatternSelenium.Assembly;
 using PageObjectPatternSelenium.ChromeConstants;
 using PageObjectPatternSelenium.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace PageObjectPatternSelenium.ChromeTests
 {
@@ -31,22 +27,43 @@ namespace PageObjectPatternSelenium.ChromeTests
 
         [Test]
         [Author("Artem Bondarenko", "BondCorporation@yandex.ru")]
-        public void Test_Broke_Login_Form()
+        //TODO make read test values from TestValues Class 
+        //TODO Make more various wrong values https://www.qamadness.com/5-test-design-techniques-qa-engineers-should-know/
+        [TestCase("something@gmail.com", "password")]
+        [TestCase("----------------", "9999999999999")]
+        public void Test_Broke_Login_Form(string WrongLogin, string WrongPassword)
         {
             Pages.Pages.home.CheckWebSite();
-            Browser.WaiterLoadPage(20);
+            Browser.WaiterLoadPage(10);
 
-            var buttonLogin = new HelperPageActions();
-            buttonLogin.Clicker(PageHomeForChrome.buttonLogin);
+            var buttonLogIn = new HelperPageActions();
+            buttonLogIn.Clicker(PageAuthForChrome.logInButton);
 
-            //Thread.Sleep(4000);
-            Browser.WaiterLoadPage(20);
+            Browser.WaiterLoadPage(10);
 
-            var LogInButtonAction = new HelperPageActions();
-            LogInButtonAction.Clicker(PageAuthForChrome.logInButton);
+            var emailForm = new HelperPageActions();
+            emailForm.SenderKeys(PageAuthForChrome.formEmail, WrongLogin);
 
-            //TODO Make Assert for check error in page
-            Thread.Sleep(10000);
+            var passwordForm = new HelperPageActions();
+            passwordForm.SenderKeys(PageAuthForChrome.formPassword, WrongPassword);
+
+            var buttonLogInForMakeRequest = new HelperPageActions();
+            buttonLogInForMakeRequest.Clicker(PageAuthForChrome.buttonLoginForReaquestToServer);
+            
+            var ErrrorMessageAuth = PageAuthForChrome.ErrorAuthMessage;
+            
+            var GetErrrorText = new HelperPageActions();
+            var result = GetErrrorText.GetText(PageAuthForChrome.ErrorAuthMessage);
+
+            Browser.WaiterLoadPage(10);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.That(ErrrorMessageAuth, Is.Not.Null);
+                Assert.That(ErrrorMessageAuth, Is.Not.Empty);
+                Assert.That(HelperPageActions.FindAndCheckExist(ErrrorMessageAuth , "errorWindow"), Is.True);
+                Assert.That(result, Does.Match("Whoops"));
+            });
         }
 
     }

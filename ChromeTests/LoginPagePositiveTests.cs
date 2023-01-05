@@ -2,12 +2,7 @@
 using PageObjectPatternSelenium.Assembly;
 using PageObjectPatternSelenium.ChromeConstants;
 using PageObjectPatternSelenium.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace PageObjectPatternSelenium.ChromeTests
 {
@@ -35,32 +30,33 @@ namespace PageObjectPatternSelenium.ChromeTests
         public void TestLoginToAccount()
         {
             Pages.Pages.home.CheckWebSite();
-            Thread.Sleep(3000);
+            Browser.WaiterLoadPage(10);
 
-            //Step one,open page
             var buttonLogIn = new HelperPageActions();
             buttonLogIn.Clicker(PageAuthForChrome.logInButton);
 
             Browser.WaiterLoadPage(10);
-            //Thread.Sleep(2000);
 
             //TODO later make read test data from SqlIte
             var emailForm = new HelperPageActions();
-            emailForm.SenderKeys(PageAuthForChrome.formEmail, "something@gmail.com");
+            emailForm.SenderKeys(PageAuthForChrome.formEmail, TestValues.CorrectLogin);
 
             var passwordForm = new HelperPageActions();
-            passwordForm.SenderKeys(PageAuthForChrome.formPassword, "password");
+            passwordForm.SenderKeys(PageAuthForChrome.formPassword, TestValues.CorrectPassword);
 
             var buttonLogInForMakeRequest = new HelperPageActions();
             buttonLogInForMakeRequest.Clicker(PageAuthForChrome.buttonLoginForReaquestToServer);
 
-            Thread.Sleep(10000);
+            var buttonProfile = PageAuthForChrome.ProductsInProfile;
 
+            Browser.WaiterLoadPage(10);
+            
             Assert.Multiple(() =>
             {
-                //TODO check for result login
+                Assert.That(buttonProfile, Is.Not.Null);
+                Assert.That(buttonProfile, Is.Not.Empty);
+                Assert.That(HelperPageActions.FindAndCheckExist(buttonProfile, "profileAccount"), Is.True);
             });
-
         }
     }
 }
