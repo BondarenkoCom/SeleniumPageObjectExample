@@ -31,9 +31,10 @@ namespace PageObjectPatternSelenium.ChromeTests
         {
             Pages.Pages.home.CheckWebSite();
             Browser.WaiterLoadPage(10);
+            string nameTest = "TestLoginToAccount";
 
             var buttonLogIn = new HelperPageActions();
-            buttonLogIn.Clicker(PageAuthForChrome.logInButton);
+            buttonLogIn.Clicker(PageAuthForChrome.logInButton, nameTest);
 
             Browser.WaiterLoadPage(10);
 
@@ -45,7 +46,7 @@ namespace PageObjectPatternSelenium.ChromeTests
             passwordForm.SenderKeys(PageAuthForChrome.formPassword, TestValues.CorrectPassword);
 
             var buttonLogInForMakeRequest = new HelperPageActions();
-            buttonLogInForMakeRequest.Clicker(PageAuthForChrome.buttonLoginForReaquestToServer);
+            buttonLogInForMakeRequest.Clicker(PageAuthForChrome.buttonLoginForReaquestToServer, nameTest);
 
             var buttonProfile = PageAuthForChrome.ProductsInProfile;
 

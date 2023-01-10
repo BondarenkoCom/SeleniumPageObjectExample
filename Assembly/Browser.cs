@@ -48,7 +48,7 @@ namespace PageObjectPatternSelenium.Assembly
 
         public static void WaiterLoadPage(int secondCount)
         {
-            webDriver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(secondCount); ;
+            webDriver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(secondCount);
         }
 
         public static void Goto(string url)

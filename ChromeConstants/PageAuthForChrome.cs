@@ -3,6 +3,7 @@ namespace PageObjectPatternSelenium.ChromeConstants
 {
     public class PageAuthForChrome
     {
+        //TODO make Upper char
         public static string logInButton = "/html/body/div[1]/nav/div[1]/ul/li[3]/a";
         public static string buttonLoginForReaquestToServer = "/html/body/div[1]/div/div/div/div/div[1]/div[1]/form/div[2]/div[1]/button";
         public static string formEmail =  "//*[@id=\"email\"]";

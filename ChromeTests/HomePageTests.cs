@@ -34,7 +34,7 @@ namespace PageObjectPatternSelenium
             Thread.Sleep(3000);
                 
             var buttonLang = new HelperPageActions();
-            buttonLang.Clicker(PageHomeForChrome.changeLanguagrToPoland);
+            buttonLang.Clicker(PageHomeForChrome.changeLanguagrToPoland, "TestChangeLanguageToPolski");
 
             Thread.Sleep(2000);
         }
@@ -46,7 +46,7 @@ namespace PageObjectPatternSelenium
             Pages.Pages.home.CheckWebSite();
             Thread.Sleep(3000);
 
-            _pageActions.Clicker(PageHomeForChrome.changeLanguageToRussian);
+            _pageActions.Clicker(PageHomeForChrome.changeLanguageToRussian, "TestChangeLanguageToRussian");
 
             Thread.Sleep(5000);
 
@@ -56,15 +56,6 @@ namespace PageObjectPatternSelenium
 
             Console.WriteLine(result);
             Assert.That(result, Does.Match("Hello, world! Привет!"));
-        }
-
-        [Test]
-        [Ignore("special error")]
-        [Author("Artem Bondarenko", "BondCorporation@yandex.ru")]
-        public void TestWithError()
-        {
-            Pages.Pages.home.CheckWebSite();
-            Thread.Sleep(3000);
         }
     }
 }

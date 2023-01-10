@@ -9,7 +9,7 @@ namespace PageObjectPatternSelenium.Helpers
     {
         //TODO Add to all HelperSnapshot.MakeSnapshot(SnapName);
 
-        public void Clicker(string changeXpath)
+        public void Clicker(string changeXpath, string SnapName)
         {
             //TODO make Try Catch for catch bugs
             try
@@ -21,6 +21,8 @@ namespace PageObjectPatternSelenium.Helpers
             catch(NoSuchElementException mes)
             {
               Console.WriteLine(mes);
+              HelperSnapshot.MakeSnapshot(SnapName);
+
               Assert.Fail(mes.Message);
             }
         }
