@@ -2,6 +2,7 @@
 using PageObjectPatternSelenium.Assembly;
 using PageObjectPatternSelenium.ChromeConstants;
 using PageObjectPatternSelenium.Helpers;
+using System.Reflection;
 using System.Threading;
 
 namespace PageObjectPatternSelenium.ChromeTests
@@ -31,7 +32,7 @@ namespace PageObjectPatternSelenium.ChromeTests
         {
             Pages.Pages.home.CheckWebSite();
             Browser.WaiterLoadPage(10);
-            string nameTest = "TestLoginToAccount";
+            string nameTest = MethodBase.GetCurrentMethod().Name;
 
             var buttonLogIn = new HelperPageActions();
             buttonLogIn.Clicker(PageAuthForChrome.logInButton, nameTest);
@@ -40,10 +41,10 @@ namespace PageObjectPatternSelenium.ChromeTests
 
             //TODO later make read test data from SqlIte
             var emailForm = new HelperPageActions();
-            emailForm.SenderKeys(PageAuthForChrome.formEmail, TestValues.CorrectLogin);
+            emailForm.SenderKeys(PageAuthForChrome.formEmail, TestValues.CorrectLogin, nameTest+"_Sender_Keys_EmailForm");
 
             var passwordForm = new HelperPageActions();
-            passwordForm.SenderKeys(PageAuthForChrome.formPassword, TestValues.CorrectPassword);
+            passwordForm.SenderKeys(PageAuthForChrome.formPassword, TestValues.CorrectPassword, nameTest + "_Sender_Keys_PasswordForm");
 
             var buttonLogInForMakeRequest = new HelperPageActions();
             buttonLogInForMakeRequest.Clicker(PageAuthForChrome.buttonLoginForReaquestToServer, nameTest);

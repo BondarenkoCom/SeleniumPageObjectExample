@@ -3,6 +3,7 @@ using PageObjectPatternSelenium.Assembly;
 using PageObjectPatternSelenium.ChromeConstants;
 using PageObjectPatternSelenium.Helpers;
 using System;
+using System.Reflection;
 using System.Threading;
 
 namespace PageObjectPatternSelenium
@@ -43,6 +44,7 @@ namespace PageObjectPatternSelenium
         [Author("Artem Bondarenko", "BondCorporation@yandex.ru")]
         public void TestChangeLanguageToRussian()
         {
+            string nameTest = MethodBase.GetCurrentMethod().Name;
             Pages.Pages.home.CheckWebSite();
             Thread.Sleep(3000);
 
@@ -50,7 +52,7 @@ namespace PageObjectPatternSelenium
 
             Thread.Sleep(5000);
 
-            var result = _pageActions.GetText(PageHomeForChrome.hellowWorldTextBlock);
+            var result = _pageActions.GetText(PageHomeForChrome.hellowWorldTextBlock, nameTest);
             
             Thread.Sleep(4000);
 

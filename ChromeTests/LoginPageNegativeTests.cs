@@ -1,7 +1,10 @@
 ﻿using NUnit.Framework;
 using PageObjectPatternSelenium.Assembly;
 using PageObjectPatternSelenium.ChromeConstants;
+using PageObjectPatternSelenium.CreateTestValues;
 using PageObjectPatternSelenium.Helpers;
+using System;
+using System.Reflection;
 
 namespace PageObjectPatternSelenium.ChromeTests
 {
@@ -9,12 +12,14 @@ namespace PageObjectPatternSelenium.ChromeTests
     public class LoginPageNegativeTests
     {
         HelperPageActions _pageActions = null;
+        CreateTestArray _createTestArray = null;
 
         [SetUp]
         public void SetUp()
         {
             Browser.Init();
             _pageActions = new HelperPageActions();
+            _createTestArray = new CreateTestArray();
         }
 
         [TearDown]
@@ -33,31 +38,29 @@ namespace PageObjectPatternSelenium.ChromeTests
         [TestCase("something@gmail.com", "999999999999999999999999999999999999999999999999999999999")]
         [TestCase("something@gmail.com", "%%%/%%%")]
         [TestCase(" ", " ")]
-        [TestCase("<script>alert(«Hello, world!»)</alert>")]
-        [TestCase("«»‘~!@#$%^&*()?>,./<][ /*<!—«», «${code}»;—>")]
         public void Test_Equivalent_Class(string WrongLogin, string WrongPassword)
         {
             Pages.Pages.home.CheckWebSite();
             Browser.WaiterLoadPage(10);
-            string nameTest = "Test_Equivalent_Class";
+            string nameTest = MethodBase.GetCurrentMethod().Name;
 
             _pageActions.Clicker(PageAuthForChrome.logInButton, nameTest);
 
             Browser.WaiterLoadPage(10);
 
             var emailForm = new HelperPageActions();
-            emailForm.SenderKeys(PageAuthForChrome.formEmail, WrongLogin);
+            emailForm.SenderKeys(PageAuthForChrome.formEmail, WrongLogin, nameTest+"_Sender_Keys_EmailForm");
 
             var passwordForm = new HelperPageActions();
-            passwordForm.SenderKeys(PageAuthForChrome.formPassword, WrongPassword);
+            passwordForm.SenderKeys(PageAuthForChrome.formPassword, WrongPassword, nameTest + "_Sender_Keys_PasswordForm");
 
             var buttonLogInForMakeRequest = new HelperPageActions();
-            buttonLogInForMakeRequest.Clicker(PageAuthForChrome.buttonLoginForReaquestToServer, nameTest);
+            buttonLogInForMakeRequest.Clicker(PageAuthForChrome.buttonLoginForReaquestToServer, nameTest+"_Click_Button_Login");
 
             var ErrrorMessageAuth = PageAuthForChrome.ErrorAuthMessage;
 
             var GetErrrorText = new HelperPageActions();
-            var result = GetErrrorText.GetText(PageAuthForChrome.ErrorAuthMessage);
+            var result = GetErrrorText.GetText(PageAuthForChrome.ErrorAuthMessage, nameTest);
 
             Browser.WaiterLoadPage(10);
 
@@ -70,29 +73,27 @@ namespace PageObjectPatternSelenium.ChromeTests
             });
         }
 
-
         [Test]
         [Author("Artem Bondarenko", "BondCorporation@yandex.ru")]
-        //TODO make read test values from TestValues Class 
-        //TODO Make more various wrong values https://www.qamadness.com/5-test-design-techniques-qa-engineers-should-know/
-        //TODO повторить техники тест дизайна и применить их в этих тестах
-        [TestCase("something@gmail.com", "password")]
-        [TestCase("----------------", "9999999999999")]
-        public void Test_Broke_Login_Form(string WrongLogin, string WrongPassword)
+        [TestCase("something@gmail.com", "password", Description = "Test Design - Valid group (Equivalence Partitioning)")]
+        [TestCase("s@s", "password", Description = "Test Design - Invalid group (Equivalence Partitioning)")]
+        [TestCase("something@gmailcom", "password", Description = "Test Design - Invalid group (Equivalence Partitioning)")]
+        [TestCase("something@gmailA.com", "password", Description = "Test Design - Invalid group (Equivalence Partitioning)")]
+        //[TestCase("something@gmailA.com", _createTestArray.GetNumbers(), Description = "Test Design - (Boundary Values)")]
+        public void Negative_Test_Broke_Login_Form(string WrongLogin, string WrongPassword)
         {
             Pages.Pages.home.CheckWebSite();
             Browser.WaiterLoadPage(10);
-            string nameTest = "Test_Broke_Login_Form";
-
+            string nameTest = MethodBase.GetCurrentMethod().Name;
             _pageActions.Clicker(PageAuthForChrome.logInButton, nameTest);
 
             Browser.WaiterLoadPage(10);
 
             var emailForm = new HelperPageActions();
-            emailForm.SenderKeys(PageAuthForChrome.formEmail, WrongLogin);
+            emailForm.SenderKeys(PageAuthForChrome.formEmail, WrongLogin, nameTest+"_SenderKeys_EmailForm_");
 
             var passwordForm = new HelperPageActions();
-            passwordForm.SenderKeys(PageAuthForChrome.formPassword, WrongPassword);
+            passwordForm.SenderKeys(PageAuthForChrome.formPassword, WrongPassword,nameTest + "_SenderKeys_PasswordForm_");
 
             var buttonLogInForMakeRequest = new HelperPageActions();
             buttonLogInForMakeRequest.Clicker(PageAuthForChrome.buttonLoginForReaquestToServer, nameTest);
@@ -100,10 +101,11 @@ namespace PageObjectPatternSelenium.ChromeTests
             var ErrrorMessageAuth = PageAuthForChrome.ErrorAuthMessage;
             
             var GetErrrorText = new HelperPageActions();
-            var result = GetErrrorText.GetText(PageAuthForChrome.ErrorAuthMessage);
+            var result = GetErrrorText.GetText(PageAuthForChrome.ErrorAuthMessage, nameTest);
 
             Browser.WaiterLoadPage(10);
-            
+
+
             Assert.Multiple(() =>
             {
                 Assert.That(ErrrorMessageAuth, Is.Not.Null);
@@ -112,6 +114,5 @@ namespace PageObjectPatternSelenium.ChromeTests
                 Assert.That(result, Does.Match("Whoops"));
             });
         }
-
     }
 }

@@ -7,11 +7,8 @@ namespace PageObjectPatternSelenium.Helpers
 {
     public class HelperPageActions : Browser
     {
-        //TODO Add to all HelperSnapshot.MakeSnapshot(SnapName);
-
         public void Clicker(string changeXpath, string SnapName)
         {
-            //TODO make Try Catch for catch bugs
             try
             {
               Browser.WaiterLoadPage(20);
@@ -32,20 +29,19 @@ namespace PageObjectPatternSelenium.Helpers
             try
             {
                 Browser.WaiterLoadPage(20);
-
                 bool IsElementDisplayed = webDriver.FindElement(By.XPath(Xpath)).Displayed;
                 return IsElementDisplayed;
             }
             catch(NoSuchElementException mes)
             {
+                HelperSnapshot.MakeSnapshot(SnapName);
                 Console.WriteLine(mes);
                 Assert.Fail(mes.Message);
-                HelperSnapshot.MakeSnapshot(SnapName);
                 return false;
             }
         }
 
-        public string GetText(string XpathForCheck)
+        public string GetText(string XpathForCheck, string SnapName)
         {
             try
             {
@@ -58,23 +54,24 @@ namespace PageObjectPatternSelenium.Helpers
             }
             catch(NoSuchElementException mes)
             {
+                HelperSnapshot.MakeSnapshot(SnapName);
                 Assert.Fail(mes.Message);
                 return mes.Message;
             }
         }
 
-        public void SenderKeys(string xpathForm, string textKey)
+        public void SenderKeys(string xpathForm, string textKey, string SnapName)
         {
             try
             {
                 Browser.WaiterLoadPage(20);
-
                 var findForm = webDriver.FindElement(By.XPath(xpathForm));
                 findForm.Clear();
                 findForm.SendKeys(textKey);
             }
             catch (NoSuchElementException mes)
             {
+                HelperSnapshot.MakeSnapshot(SnapName);
                 Assert.Fail(mes.Message);
             }
         }
