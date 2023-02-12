@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace PageObjectPatternSelenium.CreateTestValues
 {
-    public class CreateTestArray
+    public static class CreateTestArray
     {
-        public int GetNumbers()
+        public static int GetNumbers()
         {
             int[] nums = new int[144];
 

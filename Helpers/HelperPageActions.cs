@@ -1,7 +1,9 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using PageObjectPatternSelenium.Assembly;
+using PageObjectPatternSelenium.ChromeConstants;
 using System;
+using System.IO;
 
 namespace PageObjectPatternSelenium.Helpers
 {
@@ -39,6 +41,35 @@ namespace PageObjectPatternSelenium.Helpers
                 Assert.Fail(mes.Message);
                 return false;
             }
+        }
+
+        public static bool FindAndCheckExistFileOnMachine(string path, string SnapName)
+        {
+                try
+                {
+                    string filePath = path;
+                    var checkState = File.Exists(filePath);
+                    if (checkState == true)
+                    {
+                        try
+                        {
+                            File.Delete(filePath);
+                        }
+                        catch (Exception ex)
+                        {
+                            HelperSnapshot.MakeSnapshot(SnapName);
+                            Console.WriteLine("error: " + ex.Message);
+                        }
+                    }
+                    return checkState;
+                }
+                catch (NoSuchElementException mes)
+                {
+                    HelperSnapshot.MakeSnapshot(SnapName);
+                    Console.WriteLine(mes);
+                    Assert.Fail(mes.Message);
+                    return false;
+                }
         }
 
         public string GetText(string XpathForCheck, string SnapName)
